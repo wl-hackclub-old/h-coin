@@ -7,8 +7,8 @@ def create_genesis():
 
 class Blockchain:
     chain = []
-    def __init__(self, blockchain):
-        self.chain = blockchain
+    def __init__(self):
+        self.chain = BLOCKCHAIN
 
     def add_block(self, block):
         self.chain.append(block)
@@ -28,6 +28,8 @@ class Blockchain:
 
     def get_latest_block(self):
         return self.chain[-1].readable()
+    def get_blockchain(self):
+        return BLOCKCHAIN
 """
 bc = Blockchain(BLOCKCHAIN)
 genesis = create_genesis()
