@@ -11,6 +11,13 @@ from node import node
 from wallet import wallet
 from wallet import walletgen
 
+app = Flask(__name__)
+try:
+    app.run()
+except Exception as e:
+    print(e)
+
+
 #Thanks to Peter Wensel! :)
 class GetBlock(argparse.Action):
     def __init__(self, option_strings, dest, nargs=1, **kwargs):
