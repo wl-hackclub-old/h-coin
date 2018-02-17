@@ -1,8 +1,8 @@
 import argparse
-import flask
 import requests
 import ecdsa
 import hashlib
+from flask import Flask
 from miner import proofofwork
 from blockchain import blockchain
 from blockchain import block
@@ -21,18 +21,17 @@ class GetBlock(argparse.Action):
 
 
 getter = argparse.ArgumentParser(description='Gets Blocks')
-parser.add_argument('--get_block', action=GetBlock)
+parser.add_argument('--get_block', action=GetBlock, nargs='+')
 
 
 class WalletAction(argparse.Action):
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
-        if nargs is not None:
-            raise ValueError("nargs not allowed")
         super(WalletAction, self).__init__(option_strings, dest, **kwargs)
+
     def __call__(self, parser, namespace, values, option_string)
 
         setattr(namespace, self.dest, values)
 parser = argparse.ArgumentParser(description='Wallet Commands')
-parser.add_argument('--send', metavar = '', type=, nargs='', help='')
-parser.add_argument('--wallet')
+parser.add_argument('--send', action=WalletAction, nargs='+')
+parser.add_argument('--wallet', action=Wall)
 parser.add_argument('--send')
