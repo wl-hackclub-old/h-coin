@@ -12,3 +12,6 @@ class Public:
     def return_blockchain(self):
         data = requests.post(self.public_ledger_addr + "/blockchain")
         return data.json()
+    #Matthew Look Here
+    def update_blockchain(self, thing):
+        requests.post(self.public_ledger_addr + "/blockchain/update", data=thing)
