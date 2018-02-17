@@ -4,6 +4,9 @@ from flask import jsonify
 
 public = Flask(__name__)
 
+if __name__ == "__main__":
+    public.run()
+
 public_nodes = {}
 
 #Matthew look here
