@@ -1,4 +1,5 @@
-from block import Block
+from blockchain.block import Block
+import time
 
 BLOCKCHAIN = []
 PENDING_TX = []
@@ -7,8 +8,8 @@ def create_genesis():
 
 class Blockchain:
     chain = []
-    def __init__(self):
-        self.chain = BLOCKCHAIN
+    def __init__(self, blockchain):
+        self.chain = blockchain
 
     def add_block(self, block):
         self.chain.append(block)
