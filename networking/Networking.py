@@ -35,6 +35,7 @@ class Propagator:
     #         except Exception as e:
     #             print(e)
     def propagate_unverified_transaction(self, transaction):
+        print(transaction)
         for i in self.nodes:
             data = requests.post('http://' + self.nodes[i]['address'] + '/transaction', data=transaction)
             print(data.text)

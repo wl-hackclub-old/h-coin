@@ -1,59 +1,49 @@
 from wallet.walletgen import WalletGenerator
-LOCAL_TRANSACTION_AMOUNT_LIST = []
-class Wallet:
-    balance = 5
-    ok_transaction = False
-    def verify_balance(self, amount):
-        for i in LOCAL_TRANSACTION_AMOUNT_LIST:
-            self.balance = self.balance + i
-        if self.balance >= int(amount):
-            self.ok_transaction = True
-        else:
-            raise Exception("Insufficient funds")
-    def send(self, amount, address):
-        self.verify_balance(amount)
-        if self.ok_transaction == True:
-            self.balance = self.balance-int(amount)
-            LOCAL_TRANSACTION_AMOUNT_LIST.append(-1*amount)
-            print ("Sent " + amount + " h-coin to " + address)
-        else:
-            print (self.ok_transaction)
-            raise Exception("Transaction could not complete")
-    def get_balance(self):
-        return self.balance
-    #def local_update(self):
-        #for e in LOCAL_TRANSACTION_AMOUNT_LIST
-# you hooligans!
+from networking.Networking import Propagator
+import json
+import os
+
+p = Propagator()
+
 class LogWallet:
     def __init__(self):
-        generator = WalletGenerator()
-        path = './walletinfo.txt'
-        this_address = open(path, 'w')
-        this_address.write("Wallet Key: " + generator.get_wallet_address())
-        this_address.write("\nPublic Key: " + generator.get_public_key())
-        this_address.write("\nPrivate Key: " + generator.get_private_key())
-        this_address.close()
-    def get_address(self):
-        path = './walletinfo.txt'
-        this_address = open("walletinfo.txt", 'r')
-        lines = this_address.readlines()
-        return lines[0]
-        this_address.close()
-    def get_public(self):
-        path = './walletinfo.txt'
-        this_address = open("walletinfo.txt", 'r')
-        lines = this_address.readlines()
-        return lines[1]
-        this_address.close()
-    def get_private(self):
-        path = './walletinfo.txt'
-        this_address = open(path, 'r')
-        lines = this_address.readlines()
-        return lines[2]
-        this_address.close()
-"""
+        self.dir_path = os.path.dirname(os.path.realpath(__file__))
+
+        self.nodes = {}
+
+        self.data = {}
+
+        with open(self.dir_path + "/walletinfo.json", "r") as json_file:
+            self.data = json.load(json_file)
+    def read_private_key(self):
+        return self.data["private"]
+    def read_public_key(self):
+        return self.data["public"]
+    def update_balance(self, new_bal):
+        self.data["balance"] = new_bal
+        with open(self.dir_path + "/walletinfo.json", "w") as out:
+            json.dump(self.data, out)
+    def read_balance(self):
+        return int(self.data["balance"])
+
 l = LogWallet()
-print(l.get_public())
-print(l.get_address())
-print(l.get_private())
-"""
+
+class Wallet:
+    def __init__(self):
+        print('test')
+        self.balance = l.read_balance()
+
+    # def verify_balance(self, amount):
+    #     for i in LOCAL_TRANSACTION_AMOUNT_LIST:
+    #         self.balance = self.balance + i
+    #     if self.balance >= int(amount):
+    #         self.ok_transaction = True
+    #     else:
+    #         raise Exception("Insufficient funds")
+    def send(self, amount, address):
+        # self.verify_balance(amount)
+        self.balance = l.read_balance() - amount
+        l.update_balance(self.balance)
+        p.propagate_unverified_transaction({'amount' : amount, 'address' : address})
+        print ("Sent " + amount + " h-coin to " + address)
+        print ("New balance: " + self.balance)

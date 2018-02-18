@@ -5,7 +5,7 @@ import json
 import hashlib
 from flask import Flask
 from flask import jsonify
-from networking.Networking import Propagator
+# from networking.Networking import Propagator
 from wallet.wallet import Wallet
 from wallet.wallet import LogWallet
 from wallet.walletgen import WalletGenerator

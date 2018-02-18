@@ -5,6 +5,7 @@ from multiprocessing import Process, Pipe
 import os
 from subprocess import Popen, PIPE
 from blockchain.blockchain import Blockchain
+from blockchain.block import Block
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -16,15 +17,36 @@ PENDING_TX = []
 def get_diff():
     return str(difficulty)
 
-@app.route('/unconfirmed_transaction', methods=['POST'])
+@app.route('/transaction', methods=['POST'])
 def add_unconfirmed_transaction():
     data = request.get_json()
+    PENDING_TX.append(data)
     print(data)
 @app.route('/blockchain/create_genesis', methods=['POST'])
 def create_genesis():
-    chain = Blockchain()
+    chain = Blockchain(BLOCKCHAIN)
     genesis = chain.create_genesis()
     BLOCKCHAIN.append(genesis)
+
+# create_genesis()
+
+@app.route('/blockchain/index')
+def get_previous_index(block):
+    l_index = int(block.get_index())
+    if l_index >= 1:
+        return l_index - 1
+    else:
+        return l_index
+@app.route('/blockchain/hash')
+def get_previous_hash(block):
+    if block.get_index() == 0:
+        return 0
+    else:
+        return block.get_prev_hash()
+@app.route('/blockchain/latest')
+def get_latest_block():
+    chain = Blockchain(BLOCKCHAIN)
+    return chain.get_latest_block()
 #@app.route('/blockchain/mined_block')
 #def mined_block():
 
@@ -82,7 +104,8 @@ def mine():
             print ("Starting search")
             start = time.time()
 
-            new_block = 'test block header' + hash_result
+            new_block = Block(get_latest_block(), time.time(), get_latest_block(), {"nonce": nonce, "transactions": None}, nonce, difficulty)
+            BLOCKCHAIN.append(new_block)
             (hash_result, nonce) = proof_of_work(new_block, difficulty_num)
             end = time.time()
             elapsed_time = end-start
