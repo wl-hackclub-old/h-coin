@@ -13,6 +13,12 @@ app = Flask(__name__)
 BLOCKCHAIN = []
 PENDING_TX = []
 
+@app.route('/get_bal', methods=['POST'])
+def get_bal():
+    data = request.text()
+    print(data)
+    return 'yes'
+
 @app.route('/diff')
 def get_diff():
     return str(difficulty)
@@ -20,7 +26,8 @@ def get_diff():
 @app.route('/transaction', methods=['POST'])
 def add_unconfirmed_transaction():
     data = request.get_json()
-    PENDING_TX.append(data)
+    for d in data:
+        PENDING_TX.append(d)
     print(data)
 @app.route('/blockchain/create_genesis', methods=['POST'])
 def create_genesis():
@@ -104,15 +111,16 @@ def mine():
             print ("Starting search")
             start = time.time()
 
-            new_block = Block(get_latest_block(), time.time(), get_latest_block(), {"nonce": nonce, "transactions": None}, nonce, difficulty)
+            new_block = Block(get_latest_block(), time.time(), get_latest_block(), {"nonce": nonce, "transactions": PENDING_TX}, nonce, difficulty)
             BLOCKCHAIN.append(new_block)
+            del PENDING_TX[:]
             (hash_result, nonce) = proof_of_work(new_block, difficulty_num)
             end = time.time()
             elapsed_time = end-start
 
         print ("Elapsed time: %.2f seconds" % elapsed_time)
 
-if __name__ == '__main__':
+def start():
     p0 = Process(target=mine)
     p0.start()
     p1 = Process(target=app.run(host='0.0.0.0'))

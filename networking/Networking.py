@@ -39,3 +39,7 @@ class Propagator:
         for i in self.nodes:
             data = requests.post('http://' + self.nodes[i]['address'] + '/transaction', data=transaction)
             print(data.text)
+    def get_bal(self, address):
+        print(address)
+        data = requests.post('http://' + self.nodes['0']["address"] + '/get_bal', data=address)
+        return data.data

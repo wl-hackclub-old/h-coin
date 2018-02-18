@@ -25,6 +25,8 @@ class LogWallet:
             json.dump(self.data, out)
     def read_balance(self):
         return int(self.data["balance"])
+    def sync_balance(self):
+        self.data['balance'] = p.get_bal()
 
 l = LogWallet()
 

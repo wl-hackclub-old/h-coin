@@ -11,7 +11,7 @@ from wallet.wallet import LogWallet
 from wallet.walletgen import WalletGenerator
 from blockchain.block import Block
 from blockchain.blockchain import Blockchain
-from miner.miner import mine
+from miner.miner import start
 
 """
 from miner import proofofwork
@@ -87,7 +87,7 @@ class Mine(argparse.Action):
             raise ValueError("Requires one argument")
         super(Mine, self).__init__(option_strings, dest, **kwargs)
     def __call__(self, parser, namespace, values, option_string):
-        mine()
+        start()
 
 # class NetDebug(argparse.Action):
 #         def __init__(self, option_strings, dest, nargs=0, **kwargs):
