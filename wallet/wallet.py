@@ -1,9 +1,22 @@
 from walletgen import WalletGenerator
+LOCAL_TRANSACTION_AMOUNT_LIST = []
 class Wallet:
     balance = 0
     address = ""
+    ok_transaction = False
+    def verify_balance(self, amount):
+        for i in LOCAL_TRANSACTION_AMOUNT_LIST:
+            balance = balance + i
+            if balance < amount:
+                raise Exception("Insufficient funds")
+            else:
+                ok_transaction = True
     def send(self, amount, address):
-        balance = balance-amount
+        if ok_transaction == True:
+            self.balance = balance-amount
+            LOCAL_TRANSACTION_AMOUNT_LIST.append(-1*amount)
+        else:
+            raise Exception("Transaction could not complete")
 # you hooligans!
 class LogWallet:
     def __init__(self):
