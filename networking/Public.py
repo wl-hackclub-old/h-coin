@@ -1,6 +1,7 @@
 from flask import Flask
 import json
 from flask import jsonify
+import os
 
 public = Flask(__name__)
 
@@ -12,7 +13,9 @@ public_nodes = {}
 #Matthew look here
 blockchain = ['nothing']
 
-with open("nodes.json", "r") as json_file:
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
+with open(dir_path + "/nodes.json", "r") as json_file:
     data = json.load(json_file)
     public_nodes = data
 

@@ -4,12 +4,14 @@ import ecdsa
 import hashlib
 from flask import Flask
 from networking import Public
+"""
 from miner import proofofwork
 from blockchain.block import Block
 from blockchain.blockchain import Blockchain
 from node import node
-from wallet import wallet
-from wallet import walletgen
+from wallet.wallet import Wallet
+from wallet.walletgen import WalletGen
+"""
 
 app = Flask(__name__)
 try:
@@ -39,7 +41,7 @@ args = parser.parse_args()
 class SendCoin(argparse.Action):
     def __init__(self, option_strings, dest, nargs=1, **kwargs):
         if nargs != 1:
-            raise ValueError("Only one argument is allowed)
+            raise ValueError("Only one argument is allowed")
         super(SendCoin, self).__init__(option_strings, dest, **kwargs)
 
     def __call__(self, parser, namespace, values, option_string):
