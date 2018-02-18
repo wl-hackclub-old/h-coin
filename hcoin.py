@@ -11,6 +11,7 @@ from wallet.wallet import LogWallet
 from wallet.walletgen import WalletGenerator
 from blockchain.block import Block
 from blockchain.blockchain import Blockchain
+from miner.miner import mine
 
 """
 from miner import proofofwork
@@ -64,6 +65,29 @@ class GetBalance(argparse.Action):
     def __call__(self, parser, namespace, values, option_string):
         w = Wallet()
         print (w.get_balance())
+class GetPeers(argparse.Action):
+    def __init__(self, option_strings, dest, nargs = 1, **kwargs):
+        if nargs != 1:
+            raise ValueError("Requires one argument")
+        super(GetPeers, self).__init__(option_strings, dest, **kwargs)
+    def __call__(self, parser, namespace, values, option_string):
+                p = Propagator()
+                print (p.my_peers())
+class GetTransaction(argparse.Action):
+    def __init__(self, option_strings, dest, nargs =1, **kwargs):
+        if nargs != 1:
+            raise ValueError("Requires one argument")
+        super(GetTransaction, self).__init__(option_strings, dest, **kwargs)
+    def __call__(self, parser, namsespace, values, option_string):
+        chain = Blockchain()
+        print (chain.transaction_getter())
+class Mine(argparse.Action):
+    def __init__(self, option_strings, dest, nargs =1, **kwargs):
+        if nargs != 1:
+            raise ValueError("Requires one argument")
+        super(Mine, self).__init__(option_strings, dest, **kwargs)
+    def __call__(self, parser, namespace, values, option_string):
+        mine()
 
 # class NetDebug(argparse.Action):
 #         def __init__(self, option_strings, dest, nargs=0, **kwargs):
@@ -81,6 +105,9 @@ parser.add_argument('--bind-address', action=BindAddress)
 # parser.add_argument('--net-debug', action=app.run(host=BIND_ADDRESS, port=int(BIND_PORT)))
 parser.add_argument('--send', action=SendCoin)
 parser.add_argument('--get_balance', action=GetBalance)
+parser.add_argument('--get_peers', action=GetPeers)
+parser.add_argument('--get_transaction', action=GetTransaction)
+parser.add_argument('--mine', action=Mine)
 args = parser.parse_args()
 
 # if __name__ == '__main__':

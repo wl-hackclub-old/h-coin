@@ -16,5 +16,7 @@ class Block:
 
     def get_hash(self):
         return self.block_hash
+    def get_data(self, part):
+        return self.data[part]
     def readable(self):
         return "Block " + str(self.index) + " (" + str(self.get_hash()) + "); created " + str(self.timestamp) + "; prev hash: " + str(self.prev_hash) + "; data: " + str(self.data) + "; nonce: " + str(self.nonce)
