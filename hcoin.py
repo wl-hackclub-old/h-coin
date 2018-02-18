@@ -53,7 +53,7 @@ class SendCoin(argparse.Action):
 
     def __call__(self, parser, namespace, values, option_string):
         my_wallet = Wallet()
-        my_wallet.send(values, values)
+        my_wallet.send(values[0], values[1])
 # class NetDebug(argparse.Action):
 #         def __init__(self, option_strings, dest, nargs=0, **kwargs):
 #             if nargs != 0:

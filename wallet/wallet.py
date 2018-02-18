@@ -1,7 +1,7 @@
 from walletgen import WalletGenerator
 LOCAL_TRANSACTION_AMOUNT_LIST = []
 class Wallet:
-    balance = 0
+    balance = 5
     ok_transaction = False
     def verify_balance(self, amount):
         for i in LOCAL_TRANSACTION_AMOUNT_LIST:
@@ -44,8 +44,9 @@ class LogWallet:
         lines = this_address.readlines()
         return lines[2]
         this_address.close()
-
+"""
 l = LogWallet()
 print(l.get_public())
 print(l.get_address())
 print(l.get_private())
+"""

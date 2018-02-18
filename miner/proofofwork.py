@@ -43,7 +43,7 @@ def mine():
             end = time.time()
             elapsed_time = end-start
 
-        print "Elapsed time: %.2f seconds" % elapsed_time
+        print ("Elapsed time: %.2f seconds" % elapsed_time)
 
 # tester -- just to make sure the above code works. won't be part of the final thing
 if __name__ == '__main__':
