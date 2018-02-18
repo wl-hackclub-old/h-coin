@@ -7,6 +7,7 @@ from flask import Flask
 from flask import jsonify
 from networking.Networking import Propagator
 from wallet.wallet import Wallet
+from wallet.wallet import LogWallet
 from wallet.walletgen import WalletGenerator
 from blockchain.block import Block
 from blockchain.blockchain import Blockchain
@@ -56,6 +57,16 @@ class SendCoin(argparse.Action):
 
         my_wallet = Wallet()
         my_wallet.send(amount, address)
+class GetBalance(argparse.Action):
+    def __init__(self, option_strings, dest, nargs=1, **kwargs):
+        if nargs != 1:
+            raise ValueError("Requires an address argument")
+        super(GetBalance, self).__init__(option_strings, dest, **kwargs)
+
+    def __call__(self, parser, namespace, values, option_string):
+        w = Wallet()
+        print (w.get_balance())
+
 # class NetDebug(argparse.Action):
 #         def __init__(self, option_strings, dest, nargs=0, **kwargs):
 #             if nargs != 0:
@@ -71,6 +82,7 @@ parser.add_argument('--bind-port', action=BindPort)
 parser.add_argument('--bind-address', action=BindAddress)
 # parser.add_argument('--net-debug', action=app.run(host=BIND_ADDRESS, port=int(BIND_PORT)))
 parser.add_argument('--send', action=SendCoin)
+parser.add_argument('--get_balance', action=GetBalance)
 args = parser.parse_args()
 
 # if __name__ == '__main__':

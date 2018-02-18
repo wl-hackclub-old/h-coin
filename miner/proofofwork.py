@@ -1,8 +1,11 @@
 import hashlib
 import time
-from flask import Flask
-from flask import request
+from flask import Flask, render_template, request, send_from_directory
 from multiprocessing import Process, Pipe
+import os
+from subprocess import Popen, PIPE
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
 
 app = Flask(__name__)
 
@@ -10,6 +13,21 @@ app = Flask(__name__)
 def add_unconfirmed_transaction():
     data = request.get_json()
     print(data)
+@app.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory('js', path)
+@app.route('/css/<path:path>')
+def send_css(path):
+    return send_from_directory('css', path)
+@app.route('/img/<path:path>')
+def send_img(path):
+    return send_from_directory('img', path)
+@app.route('/admin')
+def admin():
+    process = Popen(["istats", "cpu", "temp"], stdout=PIPE)
+    (output, err) = process.communicate()
+    exit_code = process.wait()
+    return render_template('status.html', cpu=output.split('\xc2\xb0', 1)[0])
 
 max_nonce = 2**32 # ~4 billion
 

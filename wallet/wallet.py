@@ -19,6 +19,8 @@ class Wallet:
         else:
             print (self.ok_transaction)
             raise Exception("Transaction could not complete")
+    def get_balance(self):
+        return self.balance
 # you hooligans!
 class LogWallet:
     def __init__(self):
