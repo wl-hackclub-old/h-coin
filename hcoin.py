@@ -23,10 +23,8 @@ class GetBlock(argparse.Action):
         super(GetBlock, self).__init__(option_strings, dest, **kwargs)
 
     def __call__(self, parser, namespace, values, option_string=None):
-        p = Public("http://localhost:5000")
-        chain = p.return_blockchain()
-        blockchain = Blockchain(chain)
-        print (blockchain.get_block(values))
+        chain = Blockchain()
+        print (chain.get_block(values))
 
 class BindAddress(argparse.Action):
         def __init__(self, option_strings, dest, nargs=1, **kwargs):

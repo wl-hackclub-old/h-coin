@@ -21,6 +21,8 @@ class Wallet:
             raise Exception("Transaction could not complete")
     def get_balance(self):
         return self.balance
+    def local_update(self):
+        for e in LOCAL_TRANSACTION_AMOUNT_LIST
 # you hooligans!
 class LogWallet:
     def __init__(self):

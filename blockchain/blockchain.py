@@ -8,8 +8,8 @@ def create_genesis():
 
 class Blockchain:
     chain = []
-    def __init__(self, blockchain):
-        self.chain = blockchain
+    def __init__(self):
+        self.chain = BLOCKCHAIN
 
     def add_block(self, block):
         self.chain.append(block)
