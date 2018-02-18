@@ -21,24 +21,24 @@
      id="defs4">
     <linearGradient
        inkscape:collect="always"
-       id="linearGradient4138">
+       id="linearGradient4158">
       <stop
-         style="stop-color:#ff0000;stop-opacity:1"
+         style="stop-color:#d40000;stop-opacity:1;"
          offset="0"
-         id="stop4140" />
+         id="stop4160" />
       <stop
-         style="stop-color:#000000;stop-opacity:0;"
+         style="stop-color:#d40000;stop-opacity:0;"
          offset="1"
-         id="stop4142" />
+         id="stop4162" />
     </linearGradient>
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient4138"
-       id="linearGradient4144"
-       x1="583.86816"
-       y1="379.60056"
-       x2="583.86816"
-       y2="46.25021"
+       xlink:href="#linearGradient4158"
+       id="linearGradient4164"
+       x1="524.73389"
+       y1="213.46062"
+       x2="525.68121"
+       y2="36.317757"
        gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
@@ -49,7 +49,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="314.64028"
+     inkscape:cx="433.92599"
      inkscape:cy="553.40931"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -67,7 +67,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -77,7 +77,7 @@
      id="layer1"
      transform="translate(0,10.629921)">
     <rect
-       style="fill:url(#linearGradient4144);fill-opacity:1;stroke:none;stroke-opacity:1"
+       style="fill:url(#linearGradient4164);fill-opacity:1;stroke:none;stroke-opacity:1;fill-rule:nonzero"
        id="rect4136"
        width="1032.3759"
        height="1024.2947"

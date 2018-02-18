@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="jumbotron jumbotron-fluid space-jumbotron">
+      <div class="typewriter-text">
+        <h1 class='typey-text'><object data="boin.svg" class="inline-svg"></object>eating</h1>
+        <!-- <h1><object data="boin.svg" class="inline-svg"></object>-Coin</h1> -->
+      </div>
+    </div>
+    <div class="container">
+      <h1>H-Coin is the latest in meme cryptocurrencies</h1>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        count = 0;
+        setInterval(function(e){
+          if(count == 0){
+            $('h1.typey-text').html('<object data="boin.svg" class="inline-svg"></object>eating');
+          }else if(count == 1){
+            $('h1.typey-text').html('<object data="boin.svg" class="inline-svg"></object>ack');
+          }else if(count == 2){
+            $('h1.typey-text').html('<object data="boin.svg" class="inline-svg"></object> Memes');
+          }else if(count == 3){
+            $('h1.typey-text').html('<object data="boin.svg" class="inline-svg"></object>-Coin');
+          }else{
+            count = 0;
+          }
+          count++;
+        }, 3000);
+      });
+
+    </script>
+  </body>
+</html>
