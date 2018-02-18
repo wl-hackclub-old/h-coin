@@ -8,15 +8,13 @@ from flask import jsonify
 from networking.Networking import Propagator
 from wallet.wallet import Wallet
 from wallet.walletgen import WalletGenerator
+from blockchain.block import Block
+from blockchain.blockchain import Blockchain
 
 """
 from miner import proofofwork
-from blockchain.block import Block
-from blockchain.blockchain import Blockchain
-from node import node
 """
 
-#Thanks to Peter Wensel! :)
 class GetBlock(argparse.Action):
     def __init__(self, option_strings, dest, nargs=1, **kwargs):
         if nargs != 1:
@@ -46,14 +44,18 @@ class BindPort(argparse.Action):
             BIND_PORT = values
             app.run(host=BIND_ADDRESS, port=int(BIND_PORT))
 class SendCoin(argparse.Action):
-    def __init__(self, option_strings, dest, nargs=2, **kwargs):
-        if nargs != 2:
-            raise ValueError("Please specify the amount to send, and the address")
+    def __init__(self, option_strings, dest, nargs=1, **kwargs):
+        if nargs != 1:
+            raise ValueError("Type it exactly like this: amount,address")
         super(SendCoin, self).__init__(option_strings, dest, **kwargs)
 
     def __call__(self, parser, namespace, values, option_string):
+        value_arr = values.split(",")
+        amount = value_arr[0]
+        address = value_arr[1]
+
         my_wallet = Wallet()
-        my_wallet.send(values[0], values[1])
+        my_wallet.send(amount, address)
 # class NetDebug(argparse.Action):
 #         def __init__(self, option_strings, dest, nargs=0, **kwargs):
 #             if nargs != 0:
@@ -63,12 +65,12 @@ class SendCoin(argparse.Action):
 #             app.run(host=BIND_ADDRESS, port=int(BIND_PORT))
 
 
-parser = argparse.ArgumentParser(description='Gets Blocks')
+parser = argparse.ArgumentParser(description='H-Coin Control')
 parser.add_argument('--get_block', action=GetBlock)
 parser.add_argument('--bind-port', action=BindPort)
 parser.add_argument('--bind-address', action=BindAddress)
 # parser.add_argument('--net-debug', action=app.run(host=BIND_ADDRESS, port=int(BIND_PORT)))
-parser.add_argument('--send', action = SendCoin)
+parser.add_argument('--send', action=SendCoin)
 args = parser.parse_args()
 
 # if __name__ == '__main__':

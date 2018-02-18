@@ -1,4 +1,4 @@
-from walletgen import WalletGenerator
+from wallet.walletgen import WalletGenerator
 LOCAL_TRANSACTION_AMOUNT_LIST = []
 class Wallet:
     balance = 5
@@ -6,15 +6,18 @@ class Wallet:
     def verify_balance(self, amount):
         for i in LOCAL_TRANSACTION_AMOUNT_LIST:
             self.balance = self.balance + i
-            if self.balance < self.amount:
-                raise Exception("Insufficient funds")
-            else:
-                self.ok_transaction = True
-    def send(self, amount, address):
-        if self.ok_transaction == True:
-            self.balance = balance-amount
-            LOCAL_TRANSACTION_AMOUNT_LIST.append(-1*amount)
+        if self.balance >= int(amount):
+            self.ok_transaction = True
         else:
+            raise Exception("Insufficient funds")
+    def send(self, amount, address):
+        self.verify_balance(amount)
+        if self.ok_transaction == True:
+            self.balance = self.balance-int(amount)
+            LOCAL_TRANSACTION_AMOUNT_LIST.append(-1*amount)
+            print ("Sent " + amount + " h-coin to " + address)
+        else:
+            print (self.ok_transaction)
             raise Exception("Transaction could not complete")
 # you hooligans!
 class LogWallet:
