@@ -25,4 +25,10 @@ class Propagator:
 
     def get_peers(self):
         for i in self.nodes:
-            print(self.nodes[i])
+            # print(self.nodes[i])
+            try:
+                data = requests.get('http://' + self.nodes[i]['address'] + '/my_peers')
+                print(data)
+
+            except Exception as e:
+                print(e)

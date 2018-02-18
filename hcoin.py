@@ -24,11 +24,10 @@ p = Propagator()
 def return_my_peers():
     # print(json.dump(p.my_peers()))
     return jsonify(p.my_peers())
-
-try:
-    app.run(host='0.0.0.0')
-except Exception as e:
-    print(e)
+@app.route("/get_peers")
+def return_get_posts():
+    p.get_peers()
+    return "hello"
 
 #Thanks to Peter Wensel! :)
 class GetBlock(argparse.Action):
@@ -56,3 +55,7 @@ class SendCoin(argparse.Action):
 
     def __call__(self, parser, namespace, values, option_string):
         setattr(namespace, self.dest, values)
+try:
+    app.run(host='0.0.0.0')
+except Exception as e:
+    print(e)

@@ -1,4 +1,4 @@
-from wallet.walletgen import WalletGenerator
+from walletgen import WalletGenerator
 class Wallet:
     balance = 0
     address = ""
@@ -7,7 +7,7 @@ class Wallet:
 # you hooligans!
 class Log:
     def __init__(self, this_address, proof):
-        this_address = open("walletinfo.txt", r+)
+        this_address = open("walletinfo.txt", w)
         this_address.write("Wallet Key: " + get_wallet_address())
         this_address.write("Public Key: " + get_public_key())
         this_address.write("Private Key: " + get_private_key())
