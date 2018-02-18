@@ -1,6 +1,7 @@
 import hashlib
 import time
 from flask import Flask
+from flask import request
 from multiprocessing import Process, Pipe
 
 app = Flask(__name__)
@@ -25,27 +26,28 @@ def proof_of_work(header, difficulty_num):
             return (hash_result, nonce)
 
 def mine():
-    nonce = 0
-    hash_result = ''
+    while True:
+        nonce = 0
+        hash_result = ''
 
-    for difficulty_num in xrange(32):
-        difficulty = 2**difficulty_num
+        for difficulty_num in xrange(32):
+            difficulty = 2**difficulty_num
 
-        print ("")
-        print ("Difficulty: %ld (current num %d)" % (difficulty, difficulty_num))
-        print ("Starting search")
-        start = time.time()
+            print ("")
+            print ("Difficulty: %ld (current num %d)" % (difficulty, difficulty_num))
+            print ("Starting search")
+            start = time.time()
 
-        new_block = 'test block header' + hash_result
-        (hash_result, nonce) = proof_of_work(new_block, difficulty_num)
-        end = time.time()
-        elapsed_time = end-start
+            new_block = 'test block header' + hash_result
+            (hash_result, nonce) = proof_of_work(new_block, difficulty_num)
+            end = time.time()
+            elapsed_time = end-start
 
-    print "Elapsed time: %.2f seconds" % elapsed_time
+        print "Elapsed time: %.2f seconds" % elapsed_time
 
 # tester -- just to make sure the above code works. won't be part of the final thing
 if __name__ == '__main__':
     p0 = Process(target=mine)
     p0.start()
-    p1 = Process(target=app.run())
+    p1 = Process(target=app.run(host='0.0.0.0'))
     p1.start()
