@@ -1,8 +1,10 @@
 # h-coin
 The actual finished implementation of wl-acsl/cryptocurrency
-Special thanks to Peter Wensel
-DEPENDENCIES
+# dependencies
 1. Flask
-2. Python ecdsa (elliptic curve digital signature algorithm)
-3. Python hashlib
-4. python requests
+2. ecdsa
+3. base58
+4. hashlib
+5. requests
+
+(thanks to Peter Wensel for helping us figuring out argparse btw)
