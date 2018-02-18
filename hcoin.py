@@ -3,7 +3,9 @@ import requests
 import ecdsa
 import hashlib
 from flask import Flask
-from networking import Public
+from flask import jsonify
+from networking.Networking import Propagator
+import json
 """
 from miner import proofofwork
 from blockchain.block import Block
@@ -14,11 +16,19 @@ from wallet.walletgen import WalletGen
 """
 
 app = Flask(__name__)
+
+
+p = Propagator()
+
+@app.route("/my_peers")
+def return_my_peers():
+    # print(json.dump(p.my_peers()))
+    return jsonify(p.my_peers())
+
 try:
-    app.run()
+    app.run(host='0.0.0.0')
 except Exception as e:
     print(e)
-
 
 #Thanks to Peter Wensel! :)
 class GetBlock(argparse.Action):
