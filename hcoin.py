@@ -6,6 +6,7 @@ from flask import Flask
 from flask import jsonify
 from networking.Networking import Propagator
 import json
+from flask_script import Manager
 """
 from miner import proofofwork
 from blockchain.block import Block
@@ -17,6 +18,7 @@ from wallet.walletgen import WalletGen
 
 app = Flask(__name__)
 
+manager = Manager(app)
 
 p = Propagator()
 
@@ -26,7 +28,6 @@ def return_my_peers():
     return jsonify(p.my_peers())
 @app.route("/get_peers")
 def return_get_posts():
-    p.get_peers()
     return "hello"
 
 #Thanks to Peter Wensel! :)
@@ -55,7 +56,5 @@ class SendCoin(argparse.Action):
 
     def __call__(self, parser, namespace, values, option_string):
         setattr(namespace, self.dest, values)
-try:
-    app.run(host='0.0.0.0')
-except Exception as e:
-    print(e)
+if __name__ == '__main__':
+    manager.run()
