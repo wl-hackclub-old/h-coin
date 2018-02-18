@@ -1,23 +1,28 @@
 import hashlib
 import time
 from flask import Flask, render_template, request, send_from_directory
-from multiprocessing import Process, Pipe
+from multiprocessing import Process, Pipe, Value, Array, Manager, Lock
 import os
 from subprocess import Popen, PIPE
 from blockchain.blockchain import Blockchain
 from blockchain.block import Block
+import pickle
+from networking.Networking import Propagator
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 app = Flask(__name__)
-BLOCKCHAIN = []
 PENDING_TX = []
+BLOCKCHAIN = []
 
 @app.route('/get_bal', methods=['POST'])
 def get_bal():
-    data = request.text()
-    print(data)
-    return 'yes'
+    address = request.data
+    print(BLOCKCHAIN)
+    for block in BLOCKCHAIN:
+        # print(block.get_data("transactions"))
+        print(block)
+    return 'nonsense'
 
 @app.route('/diff')
 def get_diff():
@@ -28,12 +33,15 @@ def add_unconfirmed_transaction():
     data = request.get_json()
     for d in data:
         PENDING_TX.append(d)
-    print(data)
+    # print(data)
+    return 'ok'
 @app.route('/blockchain/create_genesis', methods=['POST'])
 def create_genesis():
     chain = Blockchain(BLOCKCHAIN)
     genesis = chain.create_genesis()
-    BLOCKCHAIN.append(genesis)
+    print(genesis)
+    chain.append(genesis)
+    # print(chain)
 
 # create_genesis()
 
@@ -50,12 +58,23 @@ def get_previous_hash(block):
         return 0
     else:
         return block.get_prev_hash()
-@app.route('/blockchain/latest')
+@app.route('/blockchain/latest', methods=['POST', 'GET'])
 def get_latest_block():
     chain = Blockchain(BLOCKCHAIN)
     return chain.get_latest_block()
 #@app.route('/blockchain/mined_block')
 #def mined_block():
+@app.route('/blockchain/append', methods=['POST'])
+def append_blockchain():
+    data = request.get_json()
+    print(data)
+    # difficulty = data['difficulty']
+    # difficulty_num = data['difficulty_num']
+    block = Block(data['latest_block'], data['time'], data['latest_block'], data['data'], data['nonce'], data['difficulty'])
+    BLOCKCHAIN.append(block)
+    return 'k'
+    # return block
+
 
 @app.route('/js/<path:path>')
 def send_js(path):
@@ -99,6 +118,8 @@ def proof_of_work(header, difficulty_num):
             return (hash_result, nonce)
 
 def mine():
+    p = Propagator()
+
     while True:
         nonce = 0
         hash_result = ''
@@ -107,17 +128,22 @@ def mine():
             difficulty = 2**difficulty_num
 
             print ("")
-            print ("Difficulty: %ld (current num %d)" % (difficulty, difficulty_num))
+
             print ("Starting search")
             start = time.time()
 
-            new_block = Block(get_latest_block(), time.time(), get_latest_block(), {"nonce": nonce, "transactions": PENDING_TX}, nonce, difficulty)
-            BLOCKCHAIN.append(new_block)
+            latest_block = p.get_latest_block()
+
+            print(latest_block)
+            # new_block = Block(p.get_latest_block(), time.time(), p.get_latest_block(), {"nonce": nonce, "transactions": PENDING_TX}, nonce, difficulty)
+            # BLOCKCHAIN.append(new_block)
+            print ("Difficulty: %ld (current num %d)" % (difficulty, difficulty_num))
+            # p.append_blockchain({'latest_block' : , 'time' : time.time(), 'latest_block' : p.get_latest_block(), 'data' : {"nonce": nonce, "transactions": PENDING_TX}, 'nonce' : nonce, 'difficulty' : difficulty, 'difficulty_num' : difficulty_num})
             del PENDING_TX[:]
-            (hash_result, nonce) = proof_of_work(new_block, difficulty_num)
+            time.sleep(1)
+            # (hash_result, nonce) = proof_of_work(new_block, difficulty_num)
             end = time.time()
             elapsed_time = end-start
-
         print ("Elapsed time: %.2f seconds" % elapsed_time)
 
 def start():

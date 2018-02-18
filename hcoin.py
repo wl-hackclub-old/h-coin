@@ -3,11 +3,9 @@ import requests
 import ecdsa
 import json
 import hashlib
-from flask import Flask
-from flask import jsonify
+from flask import Flask, jsonify
 # from networking.Networking import Propagator
-from wallet.wallet import Wallet
-from wallet.wallet import LogWallet
+from wallet.wallet import Wallet, LogWallet
 from wallet.walletgen import WalletGenerator
 from blockchain.block import Block
 from blockchain.blockchain import Blockchain

@@ -34,12 +34,18 @@ class Propagator:
     #
     #         except Exception as e:
     #             print(e)
-    def propagate_unverified_transaction(self, transaction):
-        print(transaction)
+    def propagate_unverified_transaction(self, trans):
+        print(trans)
         for i in self.nodes:
-            data = requests.post('http://' + self.nodes[i]['address'] + '/transaction', data=transaction)
+            data = requests.post('http://' + self.nodes[i]['address'] + '/transaction', json=trans)
             print(data.text)
     def get_bal(self, address):
         print(address)
         data = requests.post('http://' + self.nodes['0']["address"] + '/get_bal', data=address)
         return data.data
+    def get_latest_block(self):
+        data = requests.post('http://' + self.nodes['0']['address'] + '/blockchain/latest')
+        return data.text
+    def append_blockchain(self, block):
+        data = requests.post('http://' + self.nodes['0']['address'] + '/blockchain/append', json=block)
+        return data

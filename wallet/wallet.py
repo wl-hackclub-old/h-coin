@@ -44,8 +44,8 @@ class Wallet:
     #         raise Exception("Insufficient funds")
     def send(self, amount, address):
         # self.verify_balance(amount)
-        self.balance = l.read_balance() - amount
+        self.balance = int(l.read_balance()) - int(amount)
         l.update_balance(self.balance)
         p.propagate_unverified_transaction({'amount' : amount, 'address' : address})
         print ("Sent " + amount + " h-coin to " + address)
-        print ("New balance: " + self.balance)
+        print ("New balance: " + str(self.balance))
