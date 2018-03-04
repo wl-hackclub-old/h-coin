@@ -10,6 +10,8 @@ from wallet.walletgen import WalletGenerator
 from blockchain.block import Block
 from blockchain.blockchain import Blockchain
 from miner.miner import start
+from miner.miner import get_block
+from miner.miner import create_genesis
 
 """
 from miner import proofofwork
@@ -22,8 +24,7 @@ class GetBlock(argparse.Action):
         super(GetBlock, self).__init__(option_strings, dest, **kwargs)
 
     def __call__(self, parser, namespace, values, option_string=None):
-        chain = Blockchain()
-        print (chain.get_block(values))
+        print (get_block(values))
 
 class BindAddress(argparse.Action):
         def __init__(self, option_strings, dest, nargs=1, **kwargs):
@@ -61,8 +62,8 @@ class GetBalance(argparse.Action):
         super(GetBalance, self).__init__(option_strings, dest, **kwargs)
 
     def __call__(self, parser, namespace, values, option_string):
-        w = Wallet()
-        print (w.get_balance())
+        l = LogWallet()
+        print (l.read_balance())
 class GetPeers(argparse.Action):
     def __init__(self, option_strings, dest, nargs = 1, **kwargs):
         if nargs != 1:

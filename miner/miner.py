@@ -1,5 +1,6 @@
 import hashlib
 import time
+import json
 from flask import Flask, render_template, request, send_from_directory
 from multiprocessing import Process, Pipe, Value, Array, Manager, Lock
 import os
@@ -39,9 +40,14 @@ def add_unconfirmed_transaction():
 def create_genesis():
     chain = Blockchain(BLOCKCHAIN)
     genesis = chain.create_genesis()
-    print(genesis)
-    chain.append(genesis)
-    # print(chain)
+    BLOCKCHAIN.appenD(genesis)
+    with open(dir_path + "/blockchain.json", "w") as out:
+        json.dump(genesis, out)
+@app.route('/blockchain/get_block', methods=['POST'])
+def get_block(search):
+    with open(dir_path + "/blockchain.json", "r") as json_file:
+        chain = json.loads(json_file)
+        return chain["index: 0"]
 
 # create_genesis()
 

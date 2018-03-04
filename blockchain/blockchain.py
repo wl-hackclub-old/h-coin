@@ -1,8 +1,6 @@
 from blockchain.block import Block
 import time
 
-BLOCKCHAIN = []
-
 class Blockchain:
     chain = []
     def __init__(self, blockchain):
@@ -37,7 +35,9 @@ class Blockchain:
             latest = self.chain[-1]
             return latest.readable()
 
+"""
 bc = Blockchain({})
 genesis = bc.create_genesis()
 BLOCKCHAIN.append(genesis)
 print (bc.get_latest_block().readable())
+"""
