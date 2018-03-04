@@ -157,3 +157,14 @@ def start():
     p0.start()
     p1 = Process(target=app.run(host='0.0.0.0'))
     p1.start()
+
+def control():
+    response = False
+    args = False
+    possible_args = ["get_block", "bind_address", "bind_port", "send", "get_balance", "get_peers", "get_transaction", "mine"]
+    while response not in possible_args:
+        response = input("What do you want to do? " + possible_args)
+    if response in "get_block":
+        args = input("Enter index or hash of block")
+        get_block(args)
+        # damn i think this project is broken beyond repair
