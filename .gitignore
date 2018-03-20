@@ -1,4 +1,5 @@
 
 *.xml
 *.pyc
-*.pyc
+*.iml
+*.ropeproject

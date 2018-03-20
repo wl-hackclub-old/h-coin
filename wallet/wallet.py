@@ -2,6 +2,9 @@ from wallet.walletgen import WalletGenerator
 from networking.Networking import Propagator
 import json
 import os
+import ecdsa
+import base64
+import time
 
 p = Propagator()
 
@@ -49,3 +52,10 @@ class Wallet:
         p.propagate_unverified_transaction({'amount' : amount, 'address' : address})
         print ("Sent " + amount + " h-coin to " + address)
         print ("New balance: " + str(self.balance))
+
+    def sign(self, private_key):
+        message=str(round(time.time()))
+        bmessage = message.encode()
+        signing_key = ecdsa.SigningKey.from_string(bytes.fromhex(private_key), curve=ecdsa.SECP256k1)
+        signature = base64.b64encode(signing_key.sign(bmessage))
+        return signature, message
